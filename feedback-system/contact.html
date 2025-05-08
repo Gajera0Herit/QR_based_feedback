@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - QR Feedback System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: #0078d7;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    
+    .content-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .form-section {
+      flex: 1;
+      min-width: 300px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 30px;
+    }
+    
+    .info-section {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .info-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    textarea {
+      height: 150px;
+      resize: vertical;
+    }
+    
+    button {
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    button:hover {
+      background-color: #005a9e;
+    }
+    
+    .qr-section {
+      text-align: center;
+      margin-top: 40px;
+    }
+    
+    .qr-code {
+      max-width: 200px;
+      margin: 0 auto 20px;
+    }
+    
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+    }
+    
+    .contact-info {
+      margin-top: 20px;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .icon {
+      margin-right: 10px;
+      font-weight: bold;
+      color: #0078d7;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-links a {
+      color: white;
+      text-decoration: none;
+    }
+    
+    @media (max-width: 768px) {
+      .content-wrapper {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p class="tagline">We value your feedback and are here to help</p>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="form-section">
+        <h2>Send Us Your Feedback</h2>
+        <p>Please fill out the form below with your feedback or questions.</p>
+        
+        <form id="feedbackForm" onsubmit="submitForm(event)">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone (Optional)</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+          
+          <div class="form-group">
+            <label for="feedbackType">Feedback Type</label>
+            <select id="feedbackType" name="feedbackType">
+              <option value="general">General Feedback</option>
+              <option value="suggestion">Suggestion</option>
+              <option value="complaint">Complaint</option>
+              <option value="question">Question</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="message">Your Message</label>
+            <textarea id="message" name="message" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="qrCode">QR Code Reference (Optional)</label>
+            <input type="text" id="qrCode" name="qrCode" placeholder="Enter the QR code reference if available">
+          </div>
+          
+          <button type="submit">Submit Feedback</button>
+        </form>
+      </div>
+      
+      <div class="info-section">
+        <div class="info-card">
+          <h2>Contact Information</h2>
+          <div class="contact-info">
+            <div class="contact-item">
+              <span class="icon">📞</span>
+              <span>(555) 123-4567</span>
+            </div>
+            <div class="contact-item">
+              <span class="icon">✉️</span>
+              <span>feedback@qrfeedback.com</span>
+            </div>
+            <div class="contact-item">
+              <span class="icon">🏢</span>
+              <span>123 Feedback Lane, Suite 200<br>Innovation City, ST 12345</span>
+            </div>
+            <div class="contact-item">
+              <span class="icon">⏰</span>
+              <span>Monday - Friday: 9AM - 5PM<br>Saturday: 10AM - 2PM</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="info-card qr-section">
+          <h2>Scan Our QR Code</h2>
+          <p>Scan this QR code to quickly access our feedback form on your mobile device</p>
+          <div class="qr-code">
+            <img src="/api/placeholder/200/200" alt="QR Code Placeholder">
+          </div>
+          <p>Or use our mobile app</p>
+        </div>
+        
+        <div class="info-card">
+          <h2>FAQ</h2>
+          <p><strong>How soon will I receive a response?</strong><br>
+          We aim to respond to all inquiries within 24-48 business hours.</p>
+          <p><strong>Can I track my feedback?</strong><br>
+          Yes, you'll receive a reference number via email to track your feedback.</p>
+          <p><strong>Are my details secure?</strong><br>
+          We take data privacy seriously and follow all regulations to protect your information.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 QR Feedback System. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#">Facebook</a> |
+        <a href="#">Twitter</a> |
+        <a href="#">LinkedIn</a> |
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Get QR code parameter from URL if present
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const qrRef = urlParams.get('qr');
+      
+      if (qrRef) {
+        document.getElementById('qrCode').value = qrRef;
+      }
+    };
+    
+    // Form submission handler
+    function submitForm(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(document.getElementById('feedbackForm'));
+      const feedbackData = {};
+      
+      formData.forEach((value, key) => {
+        feedbackData[key] = value;
+      });
+      
+      // In a real application, you would send this data to your server
+      console.log('Form submitted:', feedbackData);
+      
+      // For demonstration purposes, show success message
+      alert('Thank you for your feedback! We will get back to you soon.');
+      document.getElementById('feedbackForm').reset();
+    }
+  </script>
+</body>
+</html>

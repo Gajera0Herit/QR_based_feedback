@@ -1,0 +1,426 @@
+<?php
+session_start();
+include("includes/functions.php");
+include("includes/connection.php");
+
+// Check if user is already logged in and redirect accordingly
+if (isset($_SESSION['faculty_login'])) {
+    header("location: faculty/dashboard.php");
+    exit;
+} elseif (isset($_SESSION['student_login'])) {
+    header("location: student/dashboard.php");
+    exit;
+} elseif (isset($_SESSION['admin_login'])) {
+    header("location: admin/dashboard.php");
+    exit;
+}
+
+// Initialize error array
+$errors = [];
+
+// Handle login form submission (if needed)
+if (isset($_POST['login'])) {
+    $userType = $_POST['user_type'];
+    $username = isset($_POST['username']) ? $_POST['username'] : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    
+    // Form validation
+    if (empty($username) || empty($password)) {
+        $error = "Fields cannot be empty!";
+        array_push($errors, $error);
+    } else {
+        // Handle different login types - this would need to be expanded based on your actual login logic
+        // This is just a placeholder structure
+        switch ($userType) {
+            case 'student':
+                // Student login logic
+                break;
+            case 'faculty':
+                // Faculty login logic
+                break;
+            case 'admin':
+                // Admin login logic
+                break;
+        }
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Student Feedback System" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/style-main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <title>Student Feedback System</title>
+    <style>
+        /* Navigation bar styles */
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            height: 40px;
+            margin-right: 10px;
+            filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.7));
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
+        }
+        
+        .nav-links {
+            display: flex;
+        }
+        
+        .navbar a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px 22px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 20px; /* Curved corners */
+            margin: 0 5px; /* Spacing between buttons */
+            background-color: #444; /* Slightly lighter than navbar */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px); /* Subtle lift effect */
+        }
+        
+        .navbar .active {
+            background-color: #4CAF50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+        }
+        
+        /* Subtle curve indicator at bottom of active link */
+        .navbar .active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 50%;
+            height: 3px;
+            background-color: white;
+            transform: translateX(-50%);
+            border-radius: 50% 50% 0 0;
+        }
+        
+        /* Portal cards */
+        .portal-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 200px 0;
+        }
+        
+        .portal-card {
+            width: 200px;
+            border: 3px solid #4CAF50;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 15px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(76, 175, 80, 0.9);
+        }
+        
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle,
+                rgba(76, 175, 80, 0.2) 0%,
+                rgba(255, 255, 255, 0) 70%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: -1;
+        }
+        
+        .portal-card:hover::before {
+            opacity: 1;
+        }
+        
+        .portal-card .title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        
+        .portal-card .icon {
+            font-size: 48px;
+            margin: 15px 0;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .portal-card .button-group {
+            margin-top: 20px;
+        }
+        
+        .portal-card a {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portal-card a:hover {
+            background-color: #45a049;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+            transform: scale(1.05);
+        }
+        
+        .portal-card a::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 70%
+            );
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .portal-card a:hover::after {
+            opacity: 1;
+            animation: shine 1.5s ease;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; opacity: 0.5; }
+            100% { left: 100%; opacity: 0; }
+        }
+        
+        /* QR code logo animation */
+        .qr-logo {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Main heading glow effect */
+        h1 {
+            color: #333;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.7);
+            letter-spacing: 2px;
+            font-size: 36px;
+            position: relative;
+            display: inline-block;
+            padding: 0 20px;
+        }
+        
+        h1::before, h1::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 100%;
+            top: 0;
+            background: linear-gradient(90deg, 
+                rgba(76, 175, 80, 0) 0%, 
+                rgba(76, 175, 80, 0.5) 50%, 
+                rgba(76, 175, 80, 0) 100%);
+        }
+        
+        h1::before {
+            left: -30px;
+            animation: slidingGlow 3s infinite alternate;
+        }
+        
+        h1::after {
+            right: -30px;
+            animation: slidingGlow 3s infinite alternate-reverse;
+        }
+        
+        @keyframes slidingGlow {
+            0% { transform: translateX(0); opacity: 0.3; }
+            100% { transform: translateX(50px); opacity: 0.7; }
+        }
+        
+        /* Section styles */
+        section {
+            padding: 60px;
+            margin: 20px 0;
+        }
+        
+        #home {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,240,240,0.9) 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1);
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 3px solid #4CAF50;
+            box-shadow: 0 -5px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        /* Overall page styling */
+        body {
+            background: linear-gradient(to bottom, #f9f9f9, #e9e9e9);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar with Logo -->
+    <div class="navbar">
+        <div class="logo-container">
+            <!-- SVG QR Code Logo - You can replace this with your actual logo image -->
+            <svg class="logo qr-logo" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+                <rect x="5" y="5" width="30" height="30" rx="3" fill="#4CAF50" />
+                <rect x="10" y="10" width="5" height="5" fill="white" />
+                <rect x="15" y="10" width="5" height="5" fill="white" />
+                <rect x="25" y="10" width="5" height="5" fill="white" />
+                <rect x="10" y="15" width="5" height="5" fill="white" />
+                <rect x="20" y="15" width="5" height="5" fill="white" />
+                <rect x="25" y="15" width="5" height="5" fill="white" />
+                <rect x="10" y="20" width="5" height="5" fill="white" />
+                <rect x="20" y="20" width="5" height="5" fill="white" />
+                <rect x="10" y="25" width="5" height="5" fill="white" />
+                <rect x="15" y="25" width="5" height="5" fill="white" />
+                <rect x="25" y="25" width="5" height="5" fill="white" />
+            </svg>
+            <span class="logo-text">QRFeedback</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="active">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- Home Section -->
+    <section id="home">
+        <h1>QR BASED FEEDBACK SYSTEM</h1>        
+        <!-- Portal Cards Container -->
+        <div class="portal-container">
+            <!-- Student Portal Card -->
+            <div class="portal-card">
+                <div class="title">Student</div>
+                <div class="icon student-icon">🎓</div>
+                <div class="button-group">
+                    <a href="login.php">Login</a>
+                </div>
+            </div>
+            
+            <!-- Faculty Portal Card -->
+            <div class="portal-card">
+                <div class="title">Faculty</div>
+                <div class="icon faculty-icon">👨‍🏫</div>
+                <div class="button-group">
+                    <a href="teacher/index.php">Login</a>
+                </div>
+            </div>
+            
+            <!-- Admin Portal Card -->
+            <div class="portal-card">
+                <div class="title">Admin</div>
+                <div class="icon admin-icon">👨‍💼</div>
+                <div class="button-group">
+                    <a href="admin/index.php">Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; <?php echo date("Y"); ?> Student Feedback System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple script to handle navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all navigation links
+            const navLinks = document.querySelectorAll('.navbar a');
+            
+            // Add click event listeners
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    // Remove active class from all links
+                    navLinks.forEach(function(link) {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

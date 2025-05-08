@@ -1,0 +1,192 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  width: 100vw;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  color: #555;
+  background: #ecf0f3;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Header */
+
+.kt-header-div {
+  padding: 10px 35px;
+  background: #ecf0f3;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "header-logo header-navlinks header-logout";
+  box-shadow: -6px -6px 6px rgba(255, 255, 255, 0.8),
+    6px 6px 6px rgba(0, 0, 0, 0.2);
+}
+
+.kt-header-logo {
+  grid-area: header-logo;
+  background: url("https://img.freepik.com/free-photo/feedback-survey-response-advice-suggestions_53876-125410.jpg?t=st=1650608257~exp=1650608857~hmac=4dc2b494722b79781f9a196777178d0480148832bf913a32b2e386851ca724a5&w=740");
+  background-position: 50% 50%;
+  background-size: 50px 50px;
+  background-repeat: no-repeat;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 2px #5f5f5f, 0px 0px 0px 5px #ecf0f3, 8px 8px 15px #a7aaaf,
+    -8px -8px 15px #ffffff;
+}
+
+.kt-header-navlinks a {
+  grid-area: header-navlinks;
+  padding: 10px;
+  margin: 0 10px;
+  font-size: 1.1em;
+  border-radius: 40px;
+  border-style: none;
+  color: #5ed887;
+  font-weight: normal;
+  background-color: #ecf0f3;
+  box-shadow: -4px -2px 4px 0px #fff, 4px 2px 8px 0px #d1d9e6;
+}
+
+.kt-header-navlinks a:active {
+  box-shadow: -4px -2px 4px 0px #d1d9e6, 4px 2px 8px 0px #fff;
+}
+
+.kt-logout {
+  grid-area: header-logout;
+  justify-self: end;
+  padding: 10px;
+  margin: 0 10px;
+  font-size: 1.1em;
+  border-radius: 40px;
+  border-style: none;
+  color: #ff3333;
+  font-weight: normal;
+  background-color: #ecf0f3;
+  box-shadow: -4px -2px 4px 0px #fff, 4px 2px 8px 0px #d1d9e6;
+}
+
+.kt-logout:active {
+  box-shadow: -4px -2px 4px 0px #d1d9e6, 4px 2px 8px 0px #fff;
+}
+
+/* Dashboard */
+.kt-dashboard-div {
+  padding: 10px 35px 30px 35px;
+  margin: 20px 20px;
+  border-radius: 15px;
+  background: #ecf0f3;
+  box-shadow: -6px -6px 6px rgba(255, 255, 255, 0.8),
+    6px 6px 6px rgba(0, 0, 0, 0.2);
+}
+
+.kt-dashboard-title {
+  text-align: center;
+  font-size: 28px;
+  padding-top: 24px;
+  letter-spacing: 0.5px;
+  color: #5ed887;
+}
+.kt-dashboard-sub-title {
+  text-align: center;
+  font-size: 17px;
+  font-weight: normal;
+  color: #5eaa77;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-40 {
+  margin-top: 40px;
+}
+
+/* Dashboard */
+.kt-dashboard-div {
+  padding: 30px 35px 30px 35px;
+  margin: 20px 20px;
+  border-radius: 15px;
+  background: #ecf0f3;
+}
+
+.kt-dashboard-title {
+  font-size: 28px;
+  padding-top: 24px;
+  letter-spacing: 0.5px;
+  color: #5ed887;
+  text-align: center;
+}
+
+/* Table */
+table.kt-dashboard-table {
+  width: 100%;
+  margin-top: 20px;
+  border-spacing: 0;
+  color: #212121;
+  text-align: center;
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6),
+    -9px -9px 16px rgba(255, 255, 255, 0.6);
+}
+table.kt-dashboard-table thead {
+  box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6);
+}
+table.kt-dashboard-table th {
+  padding: 15px;
+  white-space: nowrap;
+}
+
+table.kt-dashboard-table td:nth-child(1) {
+  width: 60%;
+}
+table.kt-dashboard-table td:nth-child(2) {
+  width: 20%;
+}
+table.kt-dashboard-table td:nth-child(3) {
+  width: 20%;
+}
+
+table.kt-dashboard-table > tbody > tr > td {
+  padding: 20px;
+  font-size: 14px;
+  white-space: nowrap;
+  position: relative;
+}
+
+.kt-button {
+  outline: none;
+  border: none;
+  text-decoration: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  border-radius: 25px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Lato", sans-serif;
+  color: #fff;
+  text-align: center;
+  background: #67d18a;
+  box-shadow: 7px 7px 8px #cbced1, -7px -7px 8px #ffffff;
+  transition: 0.5s;
+}
+.kt-button.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: default;
+}
+.kt-button:hover:not(.disabled) {
+  background: #5fb87d;
+}
+.kt-button:active {
+  background: #4a9764;
+}
+
+.error-red {
+  color: #ff3333;
+}
